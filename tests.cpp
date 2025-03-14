@@ -2,7 +2,6 @@
 #include "graph.h"
 #include <cassert>
 #include <fstream>
-#include <stdexcept>
 
 namespace Tests {
 
@@ -12,7 +11,9 @@ void run_all_tests() {
   std::ifstream fin("graph.txt");
   std::ofstream fout("answer.txt");
   Graph g(fin);
-  std::vector<size_t> result = g.FindAllDistances(fin);
+  size_t v;
+  fin >> v;
+  std::vector<size_t> result = g.FindAllDistances(v);
   for (auto &dist : result) {
     if (dist == INF) {
       throw std::invalid_argument("Graph is not connected.");

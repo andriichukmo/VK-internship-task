@@ -19,14 +19,12 @@ void Graph::ReadGraph(std::istream &in) {
     if (id1 >= n || id1 < 0 || id2 >= n || id2 < 0) {
       throw std::invalid_argument("wrong vertex id");
     }
-    vertexes_[id1].to.push_back(id2);
-    vertexes_[id2].to.push_back(id1);
+    vertexes_[id1].push_back(id2);
+    vertexes_[id2].push_back(id1);
   }
 }
 
-std::vector<size_t> Graph::FindAllDistances(std::istream &in) {
-  size_t v;
-  in >> v;
+std::vector<size_t> Graph::FindAllDistances(size_t v) {
   size_t n = vertexes_.size();
   std::vector<size_t> dist(n, INF);
   dist[v] = 0;
@@ -36,7 +34,7 @@ std::vector<size_t> Graph::FindAllDistances(std::istream &in) {
   while (!recently_added.empty()) {
     size_t cur = recently_added.front();
     recently_added.pop();
-    for (auto &nxt : vertexes_[cur].to) {
+    for (auto &nxt : vertexes_[cur]) {
       if (dist[nxt] == INF) {
         dist[nxt] = dist[cur] + 1;
         recently_added.push(nxt);
